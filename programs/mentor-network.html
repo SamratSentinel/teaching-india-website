@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentor Network — Teaching India</title>
+<meta name="description" content="A curated network of working professionals who commit 2–4 hours per month to structured one-to-one mentoring with a matched student over 6–12 months.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --navy: #1a2744; --navy-light: #243354; --saffron: #e8943a; --saffron-light: #f0a84f; --saffron-pale: rgba(232,148,58,0.1); --cream: #faf7f2; --cream-dark: #f0ebe1; --text: #1a2744; --text-muted: #5a6a8a; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,247,242,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(26,39,68,0.08); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.nav-logo { text-decoration: none; }
+.nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--navy); }
+.nav-logo-text span { color: var(--saffron); }
+.nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--navy); }
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); left: -16px; background: white; border: 1px solid rgba(26,39,68,0.08); border-radius: 6px; padding: 8px 0; min-width: 230px; box-shadow: 0 8px 32px rgba(26,39,68,0.12); }
+.nav-dropdown:hover .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu a { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-muted); text-decoration: none; transition: all 0.15s; }
+.nav-dropdown-menu a:hover, .nav-dropdown-menu a.active { color: var(--navy); background: var(--cream); padding-left: 24px; }
+.nav-cta { background: var(--saffron); color: white; border: none; padding: 10px 24px; border-radius: 4px; font-size: 14px; font-weight: 500; text-decoration: none; }
+.nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); }
+.mobile-nav { display: none; position: fixed; inset: 72px 0 0 0; background: var(--cream); padding: 32px 5%; z-index: 99; }
+.mobile-nav.open { display: block; }
+.mobile-nav a { display: block; font-size: 17px; color: var(--text); text-decoration: none; padding: 14px 0; border-bottom: 1px solid rgba(26,39,68,0.08); }
+
+.page-hero { padding-top: 72px; background: #13203a; }
+.page-hero-inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+.page-hero-content { padding: 72px 5%; display: flex; flex-direction: column; justify-content: center; }
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+.breadcrumb a { color: rgba(255,255,255,0.4); text-decoration: none; }
+.page-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--saffron); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.page-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--saffron); }
+.page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(38px, 5vw, 60px); font-weight: 500; line-height: 1.08; color: white; letter-spacing: -1px; margin-bottom: 20px; }
+.page-hero h1 em { font-style: italic; color: var(--saffron); }
+.page-hero-desc { font-size: 16px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.6); max-width: 460px; margin-bottom: 28px; }
+.hero-tag { display: inline-block; font-size: 11px; letter-spacing: 1px; padding: 5px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; color: rgba(255,255,255,0.55); margin: 4px 4px 0 0; }
+.page-hero-img { position: relative; overflow: hidden; }
+.page-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.6); }
+.page-hero-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, #13203a 0%, transparent 60%); }
+
+section { padding: 88px 5%; }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--saffron); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-label::before { content: ''; width: 20px; height: 1px; background: var(--saffron); }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 46px); font-weight: 500; line-height: 1.1; color: var(--navy); letter-spacing: -0.5px; margin-bottom: 20px; }
+
+.overview { background: white; }
+.overview-grid { display: grid; grid-template-columns: 1fr 380px; gap: 72px; margin-top: 44px; }
+.overview-text p { font-size: 16px; font-weight: 300; line-height: 1.9; color: var(--text-muted); margin-bottom: 20px; }
+.info-card { background: var(--cream); border-radius: 4px; padding: 22px; margin-bottom: 14px; }
+.info-card-label { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+.info-card-value { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--navy); }
+.info-card-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.what-mentors-do { background: var(--cream); }
+.mentors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+.mentor-activity { background: white; border-radius: 4px; padding: 28px; text-align: center; }
+.activity-icon { font-size: 36px; margin-bottom: 16px; }
+.activity-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--navy); margin-bottom: 10px; }
+.activity-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+
+.commitment { background: white; }
+.commitment-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; margin-top: 44px; }
+.commitment-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 500; color: var(--navy); margin-bottom: 20px; }
+.commitment-text p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--text-muted); margin-bottom: 16px; }
+.commitment-items { display: flex; flex-direction: column; gap: 20px; }
+.commitment-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: var(--cream); border-radius: 4px; }
+.commitment-item-icon { font-size: 24px; flex-shrink: 0; }
+.commitment-item h4 { font-size: 15px; font-weight: 500; color: var(--navy); margin-bottom: 4px; }
+.commitment-item p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.commitment-image { border-radius: 4px; overflow: hidden; aspect-ratio: 4/5; }
+.commitment-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.testimonials { background: var(--cream); }
+.testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 44px; }
+.testimonial-card { background: white; border-radius: 4px; padding: 32px; position: relative; }
+.testimonial-card::before { content: '\201C'; font-family: 'Cormorant Garamond', serif; font-size: 80px; color: var(--saffron-pale); position: absolute; top: 14px; right: 24px; line-height: 1; }
+.testimonial-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--navy); line-height: 1.6; margin-bottom: 18px; }
+.testimonial-author { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.testimonial-author span { color: var(--saffron); }
+.testimonial-card.mentor { border-top: 2px solid var(--saffron); }
+
+.apply-cta { background: var(--navy); }
+.apply-cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.apply-cta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; color: white; line-height: 1.15; margin-bottom: 16px; }
+.apply-cta h2 em { color: var(--saffron); font-style: italic; }
+.apply-cta p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.8; }
+.apply-form { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 32px; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.45); margin-bottom: 5px; letter-spacing: 0.5px; text-transform: uppercase; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 13px; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: white; background: rgba(255,255,255,0.07); outline: none; }
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--saffron); }
+.form-group select option { background: var(--navy); color: white; }
+.form-group textarea { min-height: 80px; resize: vertical; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.btn-saffron { background: var(--saffron); color: white; padding: 13px 28px; border-radius: 4px; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; margin-top: 4px; transition: background 0.2s; }
+.btn-saffron:hover { background: var(--saffron-light); }
+.form-msg { padding: 11px 14px; border-radius: 4px; font-size: 14px; margin-top: 10px; }
+.form-msg.success { background: rgba(45,138,78,0.15); color: #7ecf9a; border: 1px solid rgba(45,138,78,0.3); }
+.form-msg.error { background: rgba(192,57,43,0.15); color: #e07b7b; border: 1px solid rgba(192,57,43,0.3); }
+
+footer { background: #1e2d4f; border-top: 1px solid rgba(255,255,255,0.06); padding: 44px 5%; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: white; }
+.footer-brand span { color: var(--saffron); }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.22); width: 100%; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; }
+
+@media (max-width: 960px) {
+  .page-hero-inner, .overview-grid, .commitment-inner, .apply-cta-inner { grid-template-columns: 1fr; }
+  .page-hero-img { height: 280px; }
+  .mentors-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .nav-links, .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+  .footer-copy { flex-direction: column; gap: 6px; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo"><div class="nav-logo-text">Teaching<span>India</span></div></a>
+  <ul class="nav-links">
+    <li><a href="/#about">About</a></li>
+    <li class="nav-dropdown">
+      <a href="/#programs">Programs ▾</a>
+      <div class="nav-dropdown-menu">
+        <a href="/programs/board-exam-readiness.html">📚 Board Exam Readiness</a>
+        <a href="/programs/career-compass.html">🧭 Career Compass</a>
+        <a href="/programs/workplace-skills-lab.html">💼 Workplace Skills Lab</a>
+        <a href="/programs/mentor-network.html" class="active">🤝 Mentor Network</a>
+      </div>
+    </li>
+    <li><a href="/#impact">Impact</a></li>
+    <li><a href="/#involved">Get Involved</a></li>
+    <li><a href="mailto:contact@teachingindia.org">Contact</a></li>
+  </ul>
+  <a href="/#involved" class="nav-cta">Volunteer →</a>
+  <button class="nav-hamburger" onclick="document.querySelector('.mobile-nav').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-nav">
+  <a href="/">Home</a>
+  <a href="/programs/board-exam-readiness.html">Board Exam Readiness</a>
+  <a href="/programs/career-compass.html">Career Compass</a>
+  <a href="/programs/workplace-skills-lab.html">Workplace Skills Lab</a>
+  <a href="/programs/mentor-network.html">Mentor Network</a>
+  <a href="/#involved">Volunteer</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-content">
+      <div class="breadcrumb"><a href="/">Home</a> / <a href="/#programs">Programs</a> / Mentor Network</div>
+      <div class="page-eyebrow">Program 04</div>
+      <h1>Mentor <em>Network</em></h1>
+      <p class="page-hero-desc">A curated community of working professionals who commit 2–4 hours per month to one-to-one mentoring with a matched student. Structured. Consistent. Life-changing for both sides.</p>
+      <div>
+        <span class="hero-tag">All Stages</span>
+        <span class="hero-tag">6–12 Months</span>
+        <span class="hero-tag">1:1 Mentoring</span>
+        <span class="hero-tag">1000+ Sessions Conducted</span>
+      </div>
+    </div>
+    <div class="page-hero-img">
+      <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&q=80&auto=format&fit=crop" alt="Mentor and mentee in conversation">
+    </div>
+  </div>
+</div>
+
+<section class="overview">
+  <div class="section-label">About This Program</div>
+  <div class="overview-grid">
+    <div class="overview-text">
+      <h2 class="section-title">The right mentor at the right moment changes everything.</h2>
+      <p>Behind almost every successful person is someone who believed in them before they believed in themselves. For students from underprivileged backgrounds, access to that kind of consistent, caring adult presence — outside of family — is rare. Teaching India's Mentor Network exists to change that.</p>
+      <p>We carefully match each student with a volunteer mentor based on their program, location, interests, and goals. Mentors are working professionals across industries — engineers, teachers, entrepreneurs, civil servants, designers — who commit to a minimum 6-month engagement and 2–4 hours per month of structured mentoring.</p>
+      <p>Unlike one-off guest talks or drop-in sessions, our mentoring relationships are built for consistency. We train every mentor, provide a structured framework for sessions, and facilitate monthly check-ins to ensure the relationship is on track. Over 1,000 mentoring sessions have been conducted to date — and the relationship often lasts far beyond the formal program.</p>
+    </div>
+    <div>
+      <div class="info-card"><div class="info-card-label">Commitment</div><div class="info-card-value">2–4 Hours/Month</div><div class="info-card-sub">Minimum 6-month engagement</div></div>
+      <div class="info-card"><div class="info-card-label">Format</div><div class="info-card-value">1:1 Sessions</div><div class="info-card-sub">Online or in-person, flexible scheduling</div></div>
+      <div class="info-card"><div class="info-card-label">Who Can Mentor</div><div class="info-card-value">Any Professional</div><div class="info-card-sub">No teaching background required — just dedication</div></div>
+      <div class="info-card"><div class="info-card-label">Sessions to Date</div><div class="info-card-value" style="color:var(--saffron)">1000+</div><div class="info-card-sub">Across all cohorts and programs</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="what-mentors-do">
+  <div class="section-label">What Mentors Do</div>
+  <h2 class="section-title">Structured, but deeply personal.</h2>
+  <div class="mentors-grid">
+    <div class="mentor-activity">
+      <div class="activity-icon">🎯</div>
+      <div class="activity-title">Goal Setting</div>
+      <p class="activity-desc">Work with students to set meaningful short and long-term goals — academic, career, and personal — and hold them accountable month by month.</p>
+    </div>
+    <div class="mentor-activity">
+      <div class="activity-icon">💡</div>
+      <div class="activity-title">Share Experience</div>
+      <p class="activity-desc">Share your own professional journey — the mistakes, the decisions, the pivots. Students benefit enormously from hearing how real careers actually unfold.</p>
+    </div>
+    <div class="mentor-activity">
+      <div class="activity-icon">🌐</div>
+      <div class="activity-title">Open Doors</div>
+      <p class="activity-desc">Where appropriate, make introductions from your own network — to hiring managers, college alumni, or professionals in your student's target field.</p>
+    </div>
+    <div class="mentor-activity">
+      <div class="activity-icon">📝</div>
+      <div class="activity-title">Review & Feedback</div>
+      <p class="activity-desc">Review resumes, applications, and assignments. Give honest, constructive feedback that students wouldn't get from teachers or family alone.</p>
+    </div>
+    <div class="mentor-activity">
+      <div class="activity-icon">🧠</div>
+      <div class="activity-title">Problem Solve Together</div>
+      <p class="activity-desc">Be a sounding board for the decisions, dilemmas, and challenges students face. Sometimes just having an informed adult to think with makes all the difference.</p>
+    </div>
+    <div class="mentor-activity">
+      <div class="activity-icon">❤️</div>
+      <div class="activity-title">Be Consistent</div>
+      <p class="activity-desc">Show up every month. Respond to messages. Remember what was discussed last time. Consistency is the most powerful thing a mentor can offer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="commitment">
+  <div class="section-label">What We Ask of Mentors</div>
+  <div class="commitment-inner">
+    <div class="commitment-text">
+      <h3>A small commitment. An outsized impact.</h3>
+      <p>We designed the Mentor Network to be realistic for busy working professionals. Here's exactly what we ask.</p>
+      <div class="commitment-items">
+        <div class="commitment-item">
+          <div class="commitment-item-icon">⏱️</div>
+          <div><h4>2–4 hours per month</h4><p>One or two structured sessions per month, each 60–90 minutes. Plus occasional WhatsApp messages between sessions.</p></div>
+        </div>
+        <div class="commitment-item">
+          <div class="commitment-item-icon">📅</div>
+          <div><h4>Minimum 6-month commitment</h4><p>Relationships take time to build. We ask for at least 6 months — ideally 12 — to give the mentoring relationship a chance to create real impact.</p></div>
+        </div>
+        <div class="commitment-item">
+          <div class="commitment-item-icon">🎓</div>
+          <div><h4>Mentor training (online, 2 hours)</h4><p>Before you begin, we run a structured mentor training session covering our framework, boundaries, safeguarding, and how to run an effective session. Free, online, and required.</p></div>
+        </div>
+        <div class="commitment-item">
+          <div class="commitment-item-icon">📊</div>
+          <div><h4>Monthly progress updates</h4><p>A short 5-minute form after each session so we can track student progress and ensure the relationship is healthy. No lengthy reports.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="commitment-image">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&auto=format&fit=crop" alt="Mentor working with student">
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="section-label">Voices from the Network</div>
+  <h2 class="section-title">From mentors and students.</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-text">My mentor never made me feel like my questions were stupid. She made me feel like my future mattered — and that someone was invested in it.</p>
+      <div class="testimonial-author">Prithvi N. — <span>Student, Hyderabad</span></div>
+    </div>
+    <div class="testimonial-card mentor">
+      <p class="testimonial-text">I was worried I wouldn't have enough to offer. But the training showed me that being consistent and genuinely curious about my mentee's life was enough. The rest followed naturally.</p>
+      <div class="testimonial-author">Nandita K. — <span>Mentor, Product Manager · Bangalore</span></div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">In our first session, my mentor asked me what I actually wanted — not what my parents wanted. No adult had ever asked me that. That conversation changed how I approached everything.</p>
+      <div class="testimonial-author">Ajay T. — <span>Student, Nagpur</span></div>
+    </div>
+    <div class="testimonial-card mentor">
+      <p class="testimonial-text">Two hours a month sounds small. But when you see a student get their first job offer and know you were part of that journey — the impact feels enormous.</p>
+      <div class="testimonial-author">Arun S. — <span>Mentor, Civil Engineer · Mumbai</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="apply-cta">
+  <div class="apply-cta-inner">
+    <div>
+      <div class="section-label" style="color:var(--saffron)">Become a Mentor</div>
+      <h2>Two hours a month. <em>A lifetime of difference.</em></h2>
+      <p>We welcome mentors from every industry and background. You don't need to be a teacher. You need to be reliable, curious, and genuinely interested in a young person's growth.</p>
+      <br>
+      <p style="color:rgba(255,255,255,0.35);font-size:14px;margin-top:16px">Questions? <a href="mailto:contact@teachingindia.org" style="color:var(--saffron);text-decoration:none">contact@teachingindia.org</a></p>
+    </div>
+    <div class="apply-form">
+      <form id="applyForm" onsubmit="submitEnquiry(event)">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" name="firstName" required placeholder="Vikram"></div>
+          <div class="form-group"><label>Last Name</label><input type="text" name="lastName" required placeholder="Rao"></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" name="email" required placeholder="vikram@company.com"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" name="phone" required placeholder="+91 98765 43210"></div>
+        <div class="form-group"><label>Current Role & Company</label><input type="text" name="occupation" placeholder="Software Engineer at TCS"></div>
+        <div class="form-group"><label>City</label><input type="text" name="city" placeholder="Bangalore, Mumbai, Pune…"></div>
+        <div class="form-group">
+          <label>Preferred Mentoring Format</label>
+          <select name="format">
+            <option value="online">Online (Zoom / Google Meet)</option>
+            <option value="in-person">In-person</option>
+            <option value="either">Either works</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>What brought you here? (optional)</label>
+          <textarea name="message" placeholder="Tell us a bit about why you want to mentor…"></textarea>
+        </div>
+        <button type="submit" class="btn-saffron" id="applyBtn">Apply to be a Mentor →</button>
+        <div id="applyMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Teaching<span>India</span></div>
+    <div class="footer-links">
+      <a href="/programs/board-exam-readiness.html">Board Exam Readiness</a>
+      <a href="/programs/career-compass.html">Career Compass</a>
+      <a href="/programs/workplace-skills-lab.html">Workplace Skills Lab</a>
+      <a href="/programs/mentor-network.html">Mentor Network</a>
+      <a href="mailto:contact@teachingindia.org">Contact</a>
+    </div>
+    <div class="footer-copy">
+      <span>© 2025 Teaching India. All rights reserved.</span>
+      <a href="mailto:contact@teachingindia.org" style="color:rgba(255,255,255,0.22);text-decoration:none">contact@teachingindia.org</a>
+    </div>
+  </div>
+</footer>
+<script>
+async function submitEnquiry(e) {
+  e.preventDefault();
+  const btn = document.getElementById('applyBtn');
+  const msg = document.getElementById('applyMsg');
+  btn.textContent = 'Submitting…'; btn.disabled = true;
+  const form = e.target;
+  const data = { type: 'enquiry', program: 'mentor-network', firstName: form.firstName.value, lastName: form.lastName.value, email: form.email.value, phone: form.phone.value, occupation: form.occupation?.value, city: form.city?.value, format: form.format?.value, message: form.message?.value };
+  try {
+    const res = await fetch('/api/submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    if (res.ok) { msg.className = 'form-msg success'; msg.textContent = '✓ Thank you! We\'ll be in touch within 3 working days.'; form.reset(); }
+    else throw new Error();
+  } catch { msg.className = 'form-msg error'; msg.textContent = 'Something went wrong. Email us at contact@teachingindia.org'; }
+  btn.textContent = 'Apply to be a Mentor →'; btn.disabled = false;
+}
+</script>
+</body>
+</html>
