@@ -1,3 +1,4 @@
+// Redeployed: 2026-05-24
 // api/submit.js — Teaching India form submission handler
 // Sends email to contact@teachingindia.org via Resend (free tier)
 // Set RESEND_API_KEY in Vercel environment variables
