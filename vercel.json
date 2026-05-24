@@ -1,23 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.css",
-      "use": "@vercel/static"
+  "functions": {
+    "api/submit.js": {
+      "runtime": "@vercel/node@3"
     }
-  ],
+  },
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/submit",
+      "dest": "/api/submit.js"
     },
     {
       "src": "/programs/(.*)",
@@ -28,7 +19,7 @@
       "dest": "/index.html"
     },
     {
-      "src": "/(.*\\.(css|js|png|jpg|ico|svg|woff2?))",
+      "src": "/(.*)",
       "dest": "/$1"
     }
   ]
