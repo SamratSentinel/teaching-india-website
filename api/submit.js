@@ -69,8 +69,8 @@ module.exports = async function handler(req, res) {
   const textBody = fields.map(function(f) { return f[0] + ': ' + (f[1] || '-'); }).join('\n');
 
   const payload = JSON.stringify({
-    from: 'Teaching India <onboarding@resend.dev>',
-    to: ['samratkar656@gmail.com'],
+    from: 'Teaching India <noreply@teachingindia.org>',
+    to: ['contact@teachingindia.org'],
     reply_to: email || undefined,
     subject: typeLabel + ' — ' + fullName + ' (' + programLabel + ')',
     html: htmlBody,
