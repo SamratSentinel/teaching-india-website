@@ -1,5 +1,5 @@
 // api/submit.js — Teaching India form submission handler
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   let body;
   try {
     body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-  } catch {
+  } catch (e) {
     return res.status(400).json({ error: 'Invalid JSON' });
   }
 
@@ -34,16 +34,23 @@ export default async function handler(req, res) {
   const fields = [
     ['Type', typeLabel], ['Program', programLabel], ['Name', fullName],
     ['Email', email], ['Phone', phone],
-    occupation && ['Occupation', occupation],
-    city && ['City', city], role && ['Role', role],
-    subject && ['Subject', subject], module && ['Module', module],
-    industry && ['Industry', industry], format && ['Format', format],
-    message && ['Message', message],
+    occupation ? ['Occupation', occupation] : null,
+    city ? ['City', city] : null,
+    role ? ['Role', role] : null,
+    subject ? ['Subject', subject] : null,
+    module ? ['Module', module] : null,
+    industry ? ['Industry', industry] : null,
+    format ? ['Format', format] : null,
+    message ? ['Message', message] : null,
   ].filter(Boolean);
 
-  const textBody = fields.map(([l, v]) => l + ': ' + (v || '-')).join('
+  const textBody = fields.map(function(f) { return f[0] + ': ' + (f[1] || '-'); }).join('
 ');
-  const tableRows = fields.map(([l, v]) => '<tr><td style="padding:8px 12px;background:#f5f0e8;font-size:12px;font-weight:600;color:#5a6a8a;white-space:nowrap;border-bottom:1px solid #ede8df">' + l + '</td><td style="padding:8px 12px;font-size:14px;color:#1a2744;border-bottom:1px solid #ede8df">' + (v || '-') + '</td></tr>').join('');
+
+  const tableRows = fields.map(function(f) {
+    return '<tr><td style="padding:8px 12px;background:#f5f0e8;font-size:12px;font-weight:600;color:#5a6a8a;white-space:nowrap;border-bottom:1px solid #ede8df">' + f[0] + '</td><td style="padding:8px 12px;font-size:14px;color:#1a2744;border-bottom:1px solid #ede8df">' + (f[1] || '-') + '</td></tr>';
+  }).join('');
+
   const htmlBody = '<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#faf7f2;padding:32px"><div style="max-width:560px;margin:0 auto;background:white;border-radius:6px;overflow:hidden"><div style="background:#1a2744;padding:24px 28px"><div style="font-size:20px;font-weight:700;color:white">Teaching<span style="color:#e8943a">India</span></div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">' + typeLabel + '</div></div><div style="padding:24px 28px"><table style="width:100%;border-collapse:collapse;border:1px solid #ede8df">' + tableRows + '</table></div></div></body></html>';
 
   try {
@@ -66,9 +73,8 @@ export default async function handler(req, res) {
     const resendData = await response.json();
 
     if (!response.ok) {
-      // Return full Resend error so we can debug
-      return res.status(200).json({ 
-        ok: false, 
+      return res.status(200).json({
+        ok: false,
         resend_status: response.status,
         resend_error: resendData,
         key_prefix: RESEND_API_KEY.substring(0, 8) + '...'
@@ -80,4 +86,4 @@ export default async function handler(req, res) {
   } catch (err) {
     return res.status(200).json({ ok: false, error: err.message });
   }
-}
+};
