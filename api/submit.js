@@ -1,4 +1,22 @@
 // api/submit.js — Teaching India form submission handler
+const https = require('https');
+
+function httpsPost(options, data) {
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        try { resolve({ status: res.statusCode, data: JSON.parse(body) }); }
+        catch(e) { resolve({ status: res.statusCode, data: body }); }
+      });
+    });
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -20,7 +38,7 @@ module.exports = async function handler(req, res) {
   }
 
   const { type, program, firstName, lastName, email, phone,
-    occupation, city, role, subject, module, industry, format, message } = body;
+    occupation, city, role, subject, format, industry, message } = body;
 
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unknown';
   const programLabel = {
@@ -38,51 +56,50 @@ module.exports = async function handler(req, res) {
     city ? ['City', city] : null,
     role ? ['Role', role] : null,
     subject ? ['Subject', subject] : null,
-    module ? ['Module', module] : null,
     industry ? ['Industry', industry] : null,
     format ? ['Format', format] : null,
     message ? ['Message', message] : null,
   ].filter(Boolean);
 
-  const textBody = fields.map(function(f) { return f[0] + ': ' + (f[1] || '-'); }).join('
-');
-
   const tableRows = fields.map(function(f) {
     return '<tr><td style="padding:8px 12px;background:#f5f0e8;font-size:12px;font-weight:600;color:#5a6a8a;white-space:nowrap;border-bottom:1px solid #ede8df">' + f[0] + '</td><td style="padding:8px 12px;font-size:14px;color:#1a2744;border-bottom:1px solid #ede8df">' + (f[1] || '-') + '</td></tr>';
   }).join('');
 
-  const htmlBody = '<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#faf7f2;padding:32px"><div style="max-width:560px;margin:0 auto;background:white;border-radius:6px;overflow:hidden"><div style="background:#1a2744;padding:24px 28px"><div style="font-size:20px;font-weight:700;color:white">Teaching<span style="color:#e8943a">India</span></div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">' + typeLabel + '</div></div><div style="padding:24px 28px"><table style="width:100%;border-collapse:collapse;border:1px solid #ede8df">' + tableRows + '</table></div></div></body></html>';
+  const htmlBody = '<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#faf7f2;padding:32px"><div style="max-width:560px;margin:0 auto;background:white;border-radius:6px;overflow:hidden"><div style="background:#1a2744;padding:24px 28px"><div style="font-size:20px;font-weight:700;color:white">TeachingIndia</div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">' + typeLabel + '</div></div><div style="padding:24px 28px"><table style="width:100%;border-collapse:collapse;border:1px solid #ede8df">' + tableRows + '</table></div></div></body></html>';
+  const textBody = fields.map(function(f) { return f[0] + ': ' + (f[1] || '-'); }).join('\n');
+
+  const payload = JSON.stringify({
+    from: 'Teaching India <onboarding@resend.dev>',
+    to: ['contact@teachingindia.org'],
+    reply_to: email || undefined,
+    subject: typeLabel + ' — ' + fullName + ' (' + programLabel + ')',
+    html: htmlBody,
+    text: textBody,
+  });
+
+  const options = {
+    hostname: 'api.resend.com',
+    port: 443,
+    path: '/emails',
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + RESEND_API_KEY,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(payload),
+    },
+  };
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + RESEND_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Teaching India <onboarding@resend.dev>',
-        to: ['contact@teachingindia.org'],
-        reply_to: email || undefined,
-        subject: typeLabel + ' — ' + fullName + ' (' + programLabel + ')',
-        html: htmlBody,
-        text: textBody,
-      }),
-    });
-
-    const resendData = await response.json();
-
-    if (!response.ok) {
+    const result = await httpsPost(options, payload);
+    if (result.status !== 200) {
       return res.status(200).json({
         ok: false,
-        resend_status: response.status,
-        resend_error: resendData,
+        resend_status: result.status,
+        resend_error: result.data,
         key_prefix: RESEND_API_KEY.substring(0, 8) + '...'
       });
     }
-
-    return res.status(200).json({ ok: true, id: resendData.id });
-
+    return res.status(200).json({ ok: true, id: result.data.id });
   } catch (err) {
     return res.status(200).json({ ok: false, error: err.message });
   }
